@@ -90,6 +90,18 @@ def graph_generator_2(eixo_x,eixo_y,t,dados,nome):
     plt.savefig(name,format='png')
     return 0
 
+def graph_generator_3(eixo_x,eixo_y,a_x,t,dados,nome):
+    fig, ax = plt.subplots()
+    plt.subplots_adjust(right=0.97, top=0.97)
+    plt.xlabel(eixo_x, fontsize = 12, labelpad = 4)
+    plt.ylabel(eixo_y,  fontsize = 12, labelpad = 6)
+    plt.plot(t,dados[0,:,0],'#0000ff',label = 'Pre-pregnancy',linewidth = '1.8')
+    leg = ax.legend()
+    plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
+    name = nome + '[' + str(a_x) + '].png'
+    plt.savefig(name,format='png')
+    return 0
+
 def stages_graphs(a_x,dados,flag):
     if flag == 'i_m':
         a_x+= 12
@@ -104,44 +116,32 @@ def stages_graphs(a_x,dados,flag):
 
     return
 
-for a_i in range(len(a)):
-    for w in range(pregnancy):
-        for n in range(time - 1):
-            for r in range(kutta):
-                ds[w,n,r] = wks_mu[w] - alpha * s[w,n,r] - a[a_i] * s[w,n,r] * v[w,n,r]
-                di[w,n,r] = a[a_i] * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a[a_i] * s[w,n,r] * v[w,n,r]
-                dz[w,n,r] = wks_eta[w] + wks_c[w] * i[w,n,r] + wks_d[w] * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
+for w in range(1):
+    print(w)
+    for n in range(time - 1):
+        for r in range(kutta):
+            ds[w,n,r] = wks_mu[w] - alpha * s[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]
+            di[w,n,r] = a[2] * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
+            dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]
+            dz[w,n,r] = wks_eta[w] + wks_c[w] * i[w,n,r] + wks_d[w] * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
 
-                if r < (kutta - 1):
-                    s[w,n,r+1] = s[w,n,r] + h1 * ds[w,n,r]
-                    i[w,n,r+1] = i[w,n,r] + h1 * di[w,n,r]
-                    v[w,n,r+1] = v[w,n,r] + h1 * dv[w,n,r]
-                    z[w,n,r+1] = z[w,n,r] + h1 * dz[w,n,r]
+            if r < (kutta - 1):
+                s[w,n,r+1] = s[w,n,r] + h1 * ds[w,n,r]
+                i[w,n,r+1] = i[w,n,r] + h1 * di[w,n,r]
+                v[w,n,r+1] = v[w,n,r] + h1 * dv[w,n,r]
+                z[w,n,r+1] = z[w,n,r] + h1 * dz[w,n,r]
 
-            incremento_s[w,n] = (h/6) * (ds[w,n,0] + 2 * ds[w,n,1] + 2 * ds[w,n,2] + ds[w,n,3])
-            incremento_i[w,n] = (h/6) * (di[w,n,0] + 2 * di[w,n,1] + 2 * di[w,n,2] + di[w,n,3])
-            incremento_v[w,n] = (h/6) * (dv[w,n,0] + 2 * dv[w,n,1] + 2 * dv[w,n,2] + dv[w,n,3])
-            incremento_z[w,n] = (h/6) * (dz[w,n,0] + 2 * dz[w,n,1] + 2 * dz[w,n,2] + dz[w,n,3])
+        incremento_s[w,n] = (h/6) * (ds[w,n,0] + 2 * ds[w,n,1] + 2 * ds[w,n,2] + ds[w,n,3])
+        incremento_i[w,n] = (h/6) * (di[w,n,0] + 2 * di[w,n,1] + 2 * di[w,n,2] + di[w,n,3])
+        incremento_v[w,n] = (h/6) * (dv[w,n,0] + 2 * dv[w,n,1] + 2 * dv[w,n,2] + dv[w,n,3])
+        incremento_z[w,n] = (h/6) * (dz[w,n,0] + 2 * dz[w,n,1] + 2 * dz[w,n,2] + dz[w,n,3])
 
-            s[w,n+1,0] = s[w,n,0] + incremento_s[w,n]
-            i[w,n+1,0] = i[w,n,0] + incremento_i[w,n]
-            v[w,n+1,0] = v[w,n,0] + incremento_v[w,n]
-            z[w,n+1,0] = z[w,n,0] + incremento_z[w,n]
+        s[w,n+1,0] = s[w,n,0] + incremento_s[w,n]
+        i[w,n+1,0] = i[w,n,0] + incremento_i[w,n]
+        v[w,n+1,0] = v[w,n,0] + incremento_v[w,n]
+        z[w,n+1,0] = z[w,n,0] + incremento_z[w,n]
 
-    graph_generator('Time (days)',u'Monocytes/\u03bcL',a_i,t,s,'Susceptible_monocyte_population')
-    graph_generator('Time (days)',u'Monocytes/\u03bcL',a_i,t,i,'Population_of_infected_monocytes')
-    graph_generator('Time (days)',u'Viral particles/\u03bcL',a_i,t,v,'Zika_virus_population')
-    graph_generator('Time (days)',u'T-Lymphocytes/\u03bcL',a_i,t,z,'T-lymphocyte_population')
-    
-    stages_graphs(a_i,s,'s_m')  #s_m => susceptible monocyte
-    stages_graphs(a_i,i,'i_m')  #i_m => infected monocytes
-    stages_graphs(a_i,v,'z_p')  #z_p => zika population
-    stages_graphs(a_i,z,'l_p')  #l_p => lymphocyte population
-
-    if(a_i == 2):
-        for i in range(4):
-            graph_generator_2('Time (days)',u'Monocytes/\u03bcL',t,dados_x[i*3:i*3+3,:,:],'E'+str(i+1)+'_Susceptible_monocyte_population')
-            graph_generator_2('Time (days)',u'Monocytes/\u03bcL',t,dados_x[i*3+12:i*3+15,:,:],'E'+str(i+1)+'_Population_of_infected_monocytes')
-            graph_generator_2('Time (days)',u'Viral particles/\u03bcL',t,dados_x[i*3+24:i*3+27,:,:],'E'+str(i+1)+'_Zika_virus_population')
-            graph_generator_2('Time (days)',u'T-Lymphocytes/\u03bcL',t,dados_x[i*3+36:i*3+39,:,:],'E'+str(i+1)+'_T-lymphocyte_population')
+graph_generator_3('Time (days)',u'Monocytes/\u03bcL',0,t,s,'Susceptible_monocyte_population')
+graph_generator_3('Time (days)',u'Monocytes/\u03bcL',0,t,i,'Population_of_infected_monocytes')
+graph_generator_3('Time (days)',u'Viral particles/\u03bcL',0,t,v,'Zika_virus_population')
+graph_generator_3('Time (days)',u'T-Lymphocytes/\u03bcL',0,t,z,'T-lymphocyte_population')
