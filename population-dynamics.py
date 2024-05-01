@@ -34,11 +34,6 @@ v = np.zeros((pregnancy,time,kutta))
 i = np.zeros((pregnancy,time,kutta))
 z = np.zeros((pregnancy,time,kutta))
 
-# s_1 = np.zeros((pregnancy+9,time,kutta))
-# v_1 = np.zeros((pregnancy+9,time,kutta))
-# i_1 = np.zeros((pregnancy+9,time,kutta))
-# z_1 = np.zeros((pregnancy+9,time,kutta))
-
 ds = np.zeros((pregnancy,time - 1,kutta))
 dv = np.zeros((pregnancy,time - 1,kutta))
 di = np.zeros((pregnancy,time - 1,kutta))
@@ -83,31 +78,29 @@ z_1[:,0,0] = 2000 * wks_z
 
 dados_x = np.zeros((pregnancy+55,time,kutta))
 
-def graph_generator_3(eixo_x,eixo_y,a_x,t,dados,dados2,nome):
-    fig, ax = plt.subplots()
-    # plt.title(nome)
+day = 5#1/1.33/2/3/4/5
+
+def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
+    fig, ax = plt.subplots(facecolor='#C0C0C0')
+    ax.set_facecolor("#FFFFFF") 
     plt.subplots_adjust(right=0.97, top=0.97)
     plt.xlabel(eixo_x, fontsize = 12, labelpad = 4)
     plt.ylabel(eixo_y,  fontsize = 12, labelpad = 6)
-    plt.plot(t,dados[0,:,0],'#00c2b0',label = 'Com antiviral',linewidth = '1.8')
-    plt.plot(t,dados2[0,:,0],'#ff8201',label = 'Sem antiviral',linewidth = '1.8')
-    plt.axvline(x = 5, color = 'b', linestyle = '--', linewidth = 1.2,label = 'Administração do antiviral')
-    # plt.scatter(t[100],329, marker = 'X', color = 'b')                #pontos no gráfic
+    plt.plot(t,dados[0,:,0],'#00c2b0',label = 'Com antiviral',linewidth = '1.9')
+    plt.plot(t,dados2[0,:,0],'#ff8201',label = 'Sem antiviral',linewidth = '1.9')
+    plt.axvline(day, color = 'b', linestyle = '--', linewidth = 1.3,label = 'Administração do antiviral')
     leg = ax.legend()
-    plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
-    name = nome + '[' + str(a_x) + '].png'
+    plt.grid(color = 'gray', linestyle = '-', linewidth = 0.15)
+    name = nome + '[' + str(day) + '].png'
     plt.savefig(name,format='png')
     return 0
 
 for w in range(1):
     for n in range(time - 1):
-        # print(n) 
-        if(n <=500):#100/133/200/300/400/500
+        if(n <= day*100):#100/133/200/300/400/500
             remedio = 1
         else:
             remedio = 0
-        # if (n>100 and n<200): 
-        #         print(v[0,n,0],n)
         for r in range(kutta):
             
             ds[w,n,r] = wks_mu[w] - alpha * s[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]
@@ -151,7 +144,7 @@ for w in range(1):
         v_1[w,n+1,0] = v_1[w,n,0] + incremento_v_1[w,n]
         z_1[w,n+1,0] = z_1[w,n,0] + incremento_z_1[w,n]
 
-graph_generator_3('Tempo (dias)',u'Monócitos/\u03bcL',0,t,s,s_1,'Susceptible_monocyte_population')
-graph_generator_3('Tempo (dias)',u'Monócitos/\u03bcL',0,t,i,i_1,'Population_of_infected_monocytes')
-graph_generator_3('Tempo (dias)',u'Partículas virais/\u03bcL',0,t,v,v_1,'Zika_virus_population')
-graph_generator_3('Tempo (dias)',u'Linfócitos T/\u03bcL',0,t,z,z_1,'T-lymphocyte_population')
+graph_generator_3('Tempo (dias)',u'Monócitos/\u03bcL',t,s,s_1,'Susceptible_monocyte_population')
+graph_generator_3('Tempo (dias)',u'Monócitos/\u03bcL',t,i,i_1,'Population_of_infected_monocytes')
+graph_generator_3('Tempo (dias)',u'Partículas virais/\u03bcL',t,v,v_1,'Zika_virus_population')
+graph_generator_3('Tempo (dias)',u'Linfócitos T/\u03bcL',t,z,z_1,'T-lymphocyte_population')
