@@ -78,7 +78,7 @@ z_1[:,0,0] = 2000 * wks_z
 
 dados_x = np.zeros((pregnancy+55,time,kutta))
 
-day = 5#1/1.33/2/3/4/5
+day = 3#1/1.33/2/3/4/5
 
 def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
     fig, ax = plt.subplots(facecolor='#C0C0C0')
