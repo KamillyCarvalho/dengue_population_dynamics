@@ -109,8 +109,8 @@ for w in range(1):
             dz[w,n,r] = wks_eta[w] + wks_c[w] * i[w,n,r] + wks_d[w] * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
 
             ds_1[w,n,r] = wks_mu[w] - alpha * s_1[w,n,r] - a[2] * s_1[w,n,r] * v_1[w,n,r]
-            di_1[w,n,r] = a[2] * s_1[w,n,r] * v[w,n,r] - beta * i_1[w,n,r] - nu * i_1[w,n,r] * z_1[w,n,r]
-            dv_1[w,n,r] = k * i_1[w,n,r] - gamma * v[w,n,r] - a[2] * s_1[w,n,r] * v_1[w,n,r]
+            di_1[w,n,r] = a[2] * s_1[w,n,r] * v_1[w,n,r] - beta * i_1[w,n,r] - nu * i_1[w,n,r] * z_1[w,n,r]
+            dv_1[w,n,r] = k * i_1[w,n,r] - gamma * v_1[w,n,r] - a[2] * s_1[w,n,r] * v_1[w,n,r]
             dz_1[w,n,r] = wks_eta[w] + wks_c[w] * i_1[w,n,r] + wks_d[w] * i_1[w,n,r] * z_1[w,n,r] - delta * z_1[w,n,r]
 
             if r < (kutta - 1):
